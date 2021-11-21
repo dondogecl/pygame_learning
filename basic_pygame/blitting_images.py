@@ -11,11 +11,11 @@ pygame.display.set_caption("Yui Game 1.0")
 
 
 # Create images. We need to get a rect from the image to position it
-dragon_left_image = pygame.image.load("dragon_left.png")
+dragon_left_image = pygame.image.load("images\dragon_left.png")
 dragon_left_rect = dragon_left_image.get_rect()
 dragon_left_rect.topleft = (0,0)
 
-dragon_right_image = pygame.image.load("dragon_right.png")
+dragon_right_image = pygame.image.load("images\dragon_right.png")
 dragon_right_rect = dragon_right_image.get_rect()
 dragon_right_rect.topright = (WINDOW_WIDTH,0)
 
