@@ -13,7 +13,7 @@ pygame.display.set_caption("Yui discrete movement")
 VELOCITY = 10
 
 # Load images
-dragon_image = pygame.image.load(r'images\dragon_right.png')
+dragon_image = pygame.image.load(r'C:\dev\python\pygame\basic_pygame\images\dragon_right.png')
 dragon_rect = dragon_image.get_rect()
 dragon_rect.centerx = WINDOW_WIDTH // 2
 dragon_rect.bottom = WINDOW_HEIGHT
