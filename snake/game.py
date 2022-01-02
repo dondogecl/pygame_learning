@@ -1,6 +1,8 @@
 import pygame
 import os
 
+from pygame.constants import K_LEFT
+
 # initialize pygame
 pygame.init()
 
@@ -72,6 +74,36 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        # move the snake discreete
+        if event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_LEFT:
+                snake_dx = -1 * SNAKE_SIZE
+                snake_dy = 0
+
+            if event.key == pygame.K_RIGHT:
+                snake_dx = 1 * SNAKE_SIZE
+                snake_dy = 0
+            if event.key == pygame.K_UP:
+                snake_dx = 0
+                snake_dy = -1 * SNAKE_SIZE
+            if event.key == pygame.K_DOWN:
+                snake_dx = 0
+                snake_dy = 1 * SNAKE_SIZE
+            print(event.key)
+            print(snake_dx, snake_dy)
+            print(head_x, head_y)
+
+    # update position of x, y
+    head_x += snake_dx
+    head_y += snake_dy
+    head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
+
+    # check collisions
+    if head_rect.colliderect(apple_rect):
+        score += 1
+        pick_up_sound.play()
+        print("collision")
+
 
     # fill surface
     display_surface.fill(WHITE)
@@ -80,12 +112,12 @@ while running:
     display_surface.blit(score_text, score_rect)
 
     # Blit assets
-    pygame.draw.rect(display_surface, GREEN, head_coord)
-    pygame.draw.rect(display_surface, RED, apple_coord)
+    head_rect = pygame.draw.rect(display_surface, GREEN, head_coord)
+    apple_rect = pygame.draw.rect(display_surface, RED, apple_coord)
 
     # Update display
     pygame.display.update()
-    clock.tick()
+    clock.tick(FPS)
 
 
 # Ends the game
