@@ -29,7 +29,7 @@ display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("The Snake")
 
 # Set FPS and clock
-FPS = 20
+FPS = 15
 clock = pygame.time.Clock()
 
 
@@ -55,22 +55,23 @@ LIGHT = (199, 240, 216)
 DARK = (67, 82, 61)
 
 # Set Fonts
-font = pygame.font.SysFont('gabriola', 48)
+#system_font = pygame.font.SysFont('gabriola', 48)
+font = pygame.font.Font('fonts/nokiafc22.ttf', 28)
 
 # Set Text
 title_text = font.render("~Snake~", True, DARK, LIGHT)
 title_rect = title_text.get_rect()
 title_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-score_text = font.render(f"Score: {score}", True, DARK, LIGHT)
+score_text = font.render(f"Score : {score}", True, DARK, LIGHT)
 score_rect = score_text.get_rect()
 score_rect.topleft = (10,10)
 
-max_score_text = font.render(f"Max: {max_score}", True, DARK, LIGHT)
+max_score_text = font.render(f"Max : {max_score}", True, DARK, LIGHT)
 max_score_rect = max_score_text.get_rect()
 max_width = max_score_rect.width
 max_score_rect.topright = (WINDOW_WIDTH - 30, 10)
-print(max_score_rect)
+#print(max_score_rect)
 
 
 game_over_text = font.render("GAME OVER", True, DARK, LIGHT)
@@ -81,16 +82,18 @@ continue_text = font.render("Press any key to play again", True, DARK, LIGHT)
 continue_rect = continue_text.get_rect()
 continue_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 100)
 
+ui_height = score_rect.height + 4
+
 # Set Sounds and Music
 pick_up_sound = pygame.mixer.Sound(os.path.join("sounds", "5_snake_pick_up_sound.wav"))
 pick_up_sound.set_volume(0.3)
 
 # Set Images. For the rects it needs their coordinates (top-leftx, top-lefty, width, height)
-apple_coord = (500, 500, SNAKE_SIZE, SNAKE_SIZE)
+apple_coord = (500, 500, SNAKE_SIZE-5, SNAKE_SIZE-5)
 head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
 body_coords = []
 
-apple_rect = pygame.draw.rect(display_surface, RED, apple_coord)
+apple_rect = pygame.draw.rect(display_surface, DARKGREEN, apple_coord, 10)
 head_rect = pygame.draw.rect(display_surface, DARK, head_coord)
 
 #pygame.image.load()
@@ -131,8 +134,11 @@ while running:
     head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
 
     # Check for GAME OVER
-    if head_rect.left < 0 or head_rect.right > WINDOW_HEIGHT - SNAKE_SIZE \
-        or head_rect.top < 0 or head_rect.bottom > WINDOW_HEIGHT - SNAKE_SIZE \
+    #print(head_coord)
+    if head_rect.left <= 0 \
+        or head_rect.right > WINDOW_WIDTH - SNAKE_SIZE \
+        or head_rect.top <= ui_height \
+        or head_rect.bottom > WINDOW_HEIGHT - SNAKE_SIZE \
         or head_coord in body_coords:
         print("game over condition")
         display_surface.blit(game_over_text, game_over_rect)
@@ -164,15 +170,17 @@ while running:
         pick_up_sound.play()
         #print("collision")
 
-        apple_x = random.randint(0, WINDOW_WIDTH - SNAKE_SIZE)
-        apple_y = random.randint(0, WINDOW_HEIGHT - SNAKE_SIZE)
-        apple_coord = (apple_x, apple_y, SNAKE_SIZE, SNAKE_SIZE)
+        apple_x = random.randint(SNAKE_SIZE+border_thickness, WINDOW_WIDTH - (SNAKE_SIZE*2))
+        apple_y = random.randint(ui_height + border_thickness, WINDOW_HEIGHT - (SNAKE_SIZE*2) - border_thickness)
+        
+        apple_coord = (apple_x, apple_y, SNAKE_SIZE-5, SNAKE_SIZE-5)
         body_coords.append(head_coord)
         title_text = font.render("", True, WHITE, WHITE)
     
     # Update HUD
     score_text = font.render(f"Score: {score}", True, DARK, LIGHT)
     max_score_text = font.render(f"Max: {max_score}", True, DARK, LIGHT)
+    
 
     # fill surface
     display_surface.fill(LIGHT)
@@ -183,10 +191,16 @@ while running:
 
     # Blit assets
     head_rect = pygame.draw.rect(display_surface, DARK, head_coord)
-    apple_rect = pygame.draw.rect(display_surface, RED, apple_coord)
+    apple_rect = pygame.draw.rect(display_surface, DARKGREEN, apple_coord, 10)
     for body in body_coords:
-        pygame.draw.rect(display_surface, DARKGREEN, body)
+        pygame.draw.rect(display_surface, DARKGREEN, body, 1)
 
+    # walls
+    border_thickness = 4
+    pygame.draw.rect(display_surface, DARKGREEN, pygame.Rect(SNAKE_SIZE - border_thickness, \
+        ui_height , \
+        WINDOW_WIDTH - SNAKE_SIZE*2 + border_thickness*2, \
+        WINDOW_HEIGHT-ui_height-SNAKE_SIZE), border_thickness)
     # Update display
     pygame.display.update()
     clock.tick(FPS)
