@@ -193,7 +193,7 @@ while running:
     head_rect = pygame.draw.rect(display_surface, DARK, head_coord)
     apple_rect = pygame.draw.rect(display_surface, DARKGREEN, apple_coord, 10)
     for body in body_coords:
-        pygame.draw.rect(display_surface, DARKGREEN, body, 1)
+        pygame.draw.rect(display_surface, DARKGREEN, body)
 
     # walls
     border_thickness = 4
