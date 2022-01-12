@@ -22,5 +22,5 @@ I started doing the game for the tutorial, but added some additional features an
 
 # Screenshots
 
-![Snake in Python](/Screenshot_53.png)
-![Game Over Screen](/Screenshot_54.png)
+![Snake in Python](./Screenshot_53.png)
+![Game Over Screen](./Screenshot_54.png)
