@@ -8,6 +8,7 @@ ISBN: 9781803231587
 - Basic Pygame
 - Feed the Dragon
 - Catch the Clown
+- [Snake retro](https://github.com/dondogecl/pygame_learning/tree/main/snake)
 
 ### Credits
 
