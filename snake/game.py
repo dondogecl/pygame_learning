@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 from pygame.constants import K_LEFT
 
@@ -103,6 +104,15 @@ while running:
         score += 1
         pick_up_sound.play()
         print("collision")
+
+        apple_x = random.randint(0, WINDOW_WIDTH - SNAKE_SIZE)
+        apple_y = random.randint(0, WINDOW_HEIGHT - SNAKE_SIZE)
+        apple_coord = (apple_x, apple_y, SNAKE_SIZE, SNAKE_SIZE)
+        title_text = font.render("", True, WHITE, WHITE)
+    
+    # Update HUD
+    score_text = font.render(f"Score: {score}", True, GREEN, DARKRED)
+    
 
 
     # fill surface
