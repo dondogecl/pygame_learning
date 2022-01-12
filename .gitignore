@@ -1,2 +1,7 @@
 *.bat
 sandbox/
+build/
+dist/
+__pycache__/
+game.spec
+*.zip
