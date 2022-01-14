@@ -96,7 +96,6 @@ body_coords = []
 apple_rect = pygame.draw.rect(display_surface, DARKGREEN, apple_coord, 10)
 head_rect = pygame.draw.rect(display_surface, DARK, head_coord)
 
-#pygame.image.load()
 
 # Main game loop
 running = True
@@ -105,20 +104,35 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         # move the snake discreete
+        print(snake_dx, snake_dy)
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_LEFT:
-                snake_dx = -1 * SNAKE_SIZE
-                snake_dy = 0
+                if snake_dx == 20:
+                    pass
+                else:
+                    snake_dx = -1 * SNAKE_SIZE
+                    snake_dy = 0
 
             if event.key == pygame.K_RIGHT:
-                snake_dx = 1 * SNAKE_SIZE
-                snake_dy = 0
+                if snake_dx == -20:
+                    pass
+                else:
+                    snake_dx = 1 * SNAKE_SIZE
+                    snake_dy = 0
+
             if event.key == pygame.K_UP:
-                snake_dx = 0
-                snake_dy = -1 * SNAKE_SIZE
+                if snake_dy == 20:
+                    pass
+                else:               
+                    snake_dx = 0
+                    snake_dy = -1 * SNAKE_SIZE
+            
             if event.key == pygame.K_DOWN:
-                snake_dx = 0
-                snake_dy = 1 * SNAKE_SIZE
+                if snake_dy == -20:
+                    pass
+                else:               
+                    snake_dx = 0
+                    snake_dy = 1 * SNAKE_SIZE
             #print(event.key)
             #print(snake_dx, snake_dy)
             #print(head_x, head_y)
