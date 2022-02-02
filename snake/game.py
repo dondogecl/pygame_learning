@@ -1,4 +1,5 @@
 import os, sys
+from pickletools import read_bytes1
 import pygame
 import os
 import random
@@ -32,6 +33,36 @@ pygame.display.set_caption("The Snake")
 FPS = 15
 clock = pygame.time.Clock()
 
+try:
+    with open("maxscores.txt", "r", encoding='utf-8') as f:
+        historic_max = f.read()
+        print(historic_max)
+except FileNotFoundError as e:
+    print("max score file doesn't exist ")
+    with open("maxscores.txt", "w", encoding='utf-8') as f:
+        f.write("0")
+        print("New file created.")
+except Exception as e:
+    print("ERROR: ", e)
+
+def get_max_score():
+    try:
+        with open("maxscores.txt", "r", encoding='utf-8') as f:
+            historic_max = int(f.read())
+            print("get max score: ", historic_max)
+            return historic_max
+    except Exception as e:
+        print("ERROR: ", e)
+
+def save_max_score(high_score):
+    string_score = str(high_score)
+    try:
+        with open("maxscores.txt", "w", encoding='utf-8') as f:
+            f.write(string_score)
+            print("Saved new highest score")
+    except Exception as e:
+        print("ERROR. Some exception occured, details: ", e)
+
 
 # Set Game Variables
 SNAKE_SIZE = 20
@@ -41,7 +72,7 @@ head_y = WINDOW_HEIGHT //2 + 100
 snake_dx = 0
 snake_dy = 0
 score = 0
-max_score = 0
+max_score = get_max_score()
 
 
 # Set Colors
@@ -96,6 +127,10 @@ body_coords = []
 apple_rect = pygame.draw.rect(display_surface, DARKGREEN, apple_coord, 10)
 head_rect = pygame.draw.rect(display_surface, DARK, head_coord)
 
+# max scores
+historic_max = 0
+
+
 
 # Main game loop
 running = True
@@ -104,7 +139,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         # move the snake discreete
-        print(snake_dx, snake_dy)
+        #print(snake_dx, snake_dy)
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_LEFT:
                 if snake_dx == 20:
@@ -159,6 +194,9 @@ while running:
         display_surface.blit(continue_text, continue_rect)
         if score > max_score:
             max_score = score
+            historic_max = get_max_score()
+            if max_score > historic_max:
+                save_max_score(max_score)
         pygame.display.update()
         # pause
         is_paused = True
